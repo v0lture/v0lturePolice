@@ -1,0 +1,9 @@
+# Police Module configuration for jazzandmax's modular plugin system.
+
+# Jail location for command /cop arrest <player>
+X: 0
+Y: 0
+Z: 0
+world: world
+# Do not edit this, controlled by plugin.
+setup: false

@@ -1,0 +1,37 @@
+name: JM Police
+main: me.jazzandmax.police.Police
+version: 2.0
+description: >
+                   Police module for jazzandmax modular plugin system.
+commands:
+     cop: 
+         description: Base command for all police commands.
+permissions:
+    jm.police.*:
+         description: Gives access to all JM Police commands
+         children:
+              jm.police.teleport: true
+              jm.police.arrest: true
+              jm.police.freeze: true
+              jm.police.resist: true
+         default: op
+    jm.police.basic:
+          description: Gives basic JM Police commands
+          children:
+              jm.police.teleport: true
+              jm.police.freeze: true
+              jm.police.resist: true
+    jm.police.teleport:
+         description: Allows teleporting
+         default: op
+    jm.police.resist:
+         description: Allows player to resist freezes
+         default: true
+    jm.police.freeze:
+         description: Allows freezing of players
+         default: op
+    jm.police.arrest:
+        description: Allows arresting of players
+        default: op
+    jm.debug:
+         description: debug
