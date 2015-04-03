@@ -119,12 +119,13 @@ public class Police extends JavaPlugin{
 				devDebug("COP RESIST", player, null, "SUCCESS");
 				rand = new Random().nextDouble();
 				resistOdds = rand;
-				if (resistOdds >= .00 && resistOdds <= .15 && resistTries <= 3){
+				if (resistOdds >= .0 && resistOdds <= .5 && resistTries <= 3){
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
 				}
 				else {
+					resistTries = (resistTries + 1);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (3 - resistTries) + " tries left");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
