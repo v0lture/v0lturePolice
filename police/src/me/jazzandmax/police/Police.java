@@ -2,6 +2,7 @@ package me.jazzandmax.police;
 
 import java.util.logging.Logger;
 import java.util.Random;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,11 +22,11 @@ public class Police extends JavaPlugin{
 	
 	double rand = new Random().nextDouble();
 	double resistOdds;
-	int resistTries;
+	//int resistTries;
+	HashMap<Player, Integer> resistTries = new HashMap<Player, Integer>();
 	
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static Police plugin;
-	
 	
 	@Override
 	public void onDisable(){
@@ -96,9 +97,7 @@ public class Police extends JavaPlugin{
 				
 			} else if (args.length == (2) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
 				if (getPlayer(args[1]) != null){
-					
 					Player targetPlayer = getPlayer(args[1]);
-					resistTries = 3;
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries);
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
@@ -111,20 +110,20 @@ public class Police extends JavaPlugin{
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Freeze failed. Player is not online, check spelling and try again.");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
-				
 				rand = new Random().nextDouble();
 				resistOdds = rand;
-				if (resistOdds >= .0 && resistOdds <= .1 && resistTries <= 3 && resistTries > 0) {
+				resistTries.put(player, 3);
+				if (resistOdds >= .0 && resistOdds <= .1 && resistTries.get(player) <= 3 && resistTries.get(player) > 0) {
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
 				}
-				else if (resistTries <= 0) {
+				else if (resistTries.get(player) <= 0) {
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You are out of resist tries");
 				}
 				else {
-					resistTries = (resistTries - 1);
-					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (resistTries) + " tries left");
+					resistTries.put(player, resistTries.get(player) - 1);
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (resistTries.get(player)) + " tries left");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				
