@@ -19,9 +19,8 @@ import java.util.Random;
 public class Police extends JavaPlugin{
 	
 	Random rand = new Random();
+	double resistOdds;
 	int resistTries;
-	short resistOdds;
-	resistOdds = rand;
 	
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static Police plugin;
@@ -117,6 +116,8 @@ public class Police extends JavaPlugin{
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				devDebug("COP RESIST", player, null, "SUCCESS");
+				rand = new Random();
+				resistOdds = rand;
 				if (resistOdds >= .00 && resistOdds <= .15 && resistTries <= 3){
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
