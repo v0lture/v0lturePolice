@@ -104,7 +104,7 @@ public class Police extends JavaPlugin{
 				if (getPlayer(args[1]) != null){
 					devDebug("COP FREEZE", player, null, "SUCCESS");
 					Player targetPlayer = getPlayer(args[1]);
-					resistTries = 0;
+					resistTries = 3;
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries);
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
@@ -120,14 +120,17 @@ public class Police extends JavaPlugin{
 				devDebug("COP RESIST", player, null, "SUCCESS");
 				rand = new Random().nextDouble();
 				resistOdds = rand;
-				if (resistOdds >= .0 && resistOdds <= .1 && resistTries <= 3){
+				if (resistOdds >= .0 && resistOdds <= .1 && resistTries <= 3 && resistTries > 0) {
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
 				}
+				else if (resistTries <= 0) {
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You are out of resist tries");
+				}
 				else {
-					resistTries = (resistTries + 1);
-					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (3 - resistTries) + " tries left");
+					resistTries = (resistTries - 1);
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (resistTries) + " tries left");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				devDebug("COP RESIST", player, null, "FAILED: INVALID");
