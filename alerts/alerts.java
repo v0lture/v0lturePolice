@@ -1,7 +1,9 @@
 package me.jazzandmax.alerts;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,7 +16,12 @@ public class alerts extends JavaPlugin{
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static alerts plugin;
 	
+	// Alerts cooldown ArrayList
+	ArrayList<Player> cooldown = new ArrayList<Player>();
+	
+	
 	// Shutdown and boot actions
+	
 	
 	@Override
 	public void onDisable(){
@@ -82,18 +89,27 @@ public class alerts extends JavaPlugin{
 			Player player = (Player) sender;
 			// Define command
 			if(commandLabel.equalsIgnoreCase("alert")){
+				// Determine if player is in cooldown
+				if(!cooldown.contains(player)){
+					cooldown.add(player);
 				// just /alert
 				if(args.length == (0)){
-					player.sendMessage(ChatColor.DARK_GREEN + "[Alerts] " + ChatColor.GREEN + "For help type " + ChatColor.GOLD + "/alert help");
+					player.sendMessage(ChatColor.DARK_GREEN + "[Alerts] " + ChatColor.GREEN + "For help type " + ChatColor.GOLD + "/jazzandmax alert or /alert help");
 				// /alert help
 				} else if (args.length == (1) && args[0].equalsIgnoreCase("help")){
-					
+					player.sendMessage(ChatColor.DARK_GREEN + "[Alerts] " + ChatColor.GREEN + "Command usage: " + ChatColor.GOLD + "/alert [admin/<police department name>]");
 				// /alert admin
 				} else if (args.length == (1) && args[0].equalsIgnoreCase("admin")){
-					
+					player.sendMessage(ChatColor.DARK_GREEN + "[Alerts] " + ChatColor.GREEN + "You have alerted department " + ChatColor.GOLD + "admin");
+					Bukkit.broadcast(ChatColor.DARK_PURPLE + "[Alerts] " + ChatColor.DARK_GREEN + player + ChatColor.GREEN + " has requested your assistance.", "jm.alerts.admin");
 				// /alert 1 (or dprt1)
 				} else if (args.length == (1) && args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase(getConfig().getString("dprt1"))){
-					
+					if(getConfig().getString("dprt1").equals("")){
+						player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "The department you request is misconfigured in the config.yml.");
+					} else {
+						player.sendMessage(ChatColor.DARK_GREEN + "[Alerts] " + ChatColor.GREEN + "You have alerted department " + ChatColor.GOLD + getConfig().getString("dprt1"));
+						Bukkit.broadcast(ChatColor.DARK_PURPLE + "[Alerts] " + ChatColor.DARK_GREEN + player + ChatColor.GREEN + " has alerted your police department " + ChatColor.GOLD + getConfig().getString("dprt1"), "jm.alerts.1");
+					}
 				// /alert 2 (or dprt2 name)
 				} else if (args.length == (1) && args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase(getConfig().getString("dprt2"))){
 					
@@ -138,9 +154,22 @@ public class alerts extends JavaPlugin{
 					
 				}
 				
+				// Cooldown timer and autodelete
 				
-			}
+				Bukkit.getScheduler().scheduleSyncDelayedTask(alerts.plugin, new Runnable(){
+					@Override
+					public void run(){
+						cooldown.remove(player);
+						player.sendMessage(ChatColor.DARK_GREEN + "[Cooldown] " + ChatColor.GREEN + "You can now use " + ChatColor.GOLD + "/alert");}}
+					 , 20*30L);
+				} else {
+					player.sendMessage(ChatColor.DARK_RED + "[Cooldown] " + ChatColor.RED + "You must wait until you can use " + ChatColor.GOLD + "/alert" + ChatColor.RED + " again.");
+				}
+				
+			
 			return false;
-		
+				
 	}
+			return false;
+		}
 }
