@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class Police extends JavaPlugin{
 	
-	Random rand = new Random().nextDouble();
+	double rand = new Random().nextDouble();
 	double resistOdds;
 	int resistTries;
 	
