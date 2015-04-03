@@ -1,6 +1,7 @@
 package me.jazzandmax.police;
 
 import java.util.logging.Logger;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +15,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import java.util.Random;
+
 
 public class Police extends JavaPlugin{
 	
