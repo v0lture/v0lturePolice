@@ -14,7 +14,9 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
+Random rand = new Random();
+int resistTries = 0;
+double resistOdds = rand;
 public class Police extends JavaPlugin{
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static Police plugin;
@@ -97,22 +99,27 @@ public class Police extends JavaPlugin{
 				if (getPlayer(args[1]) != null){
 					devDebug("COP FREEZE", player, null, "SUCCESS");
 					Player targetPlayer = getPlayer(args[1]);
+					resistTries = 0;
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You froze " + ChatColor.RED + args[1] + ChatColor.GREEN + " for 8 minutes.");
-					player.sendMessage(ChatColor.GOLD + "[Police] [WARNING] " + ChatColor.DARK_RED + args[1] + ChatColor.GREEN + " can unfreeze at anytime by typing " + ChatColor.GOLD + "/cop resist");
+					player.sendMessage(ChatColor.GOLD + "[Police] [WARNING] " + ChatColor.DARK_RED + args[1] + ChatColor.GREEN + " can try to unfreeze at anytime by typing " + ChatColor.GOLD + "/cop resist");
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have just been frozen by " + ChatColor.GOLD + player + ChatColor.GREEN + ".");
-					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You can resist this by typing " + ChatColor.GOLD + "/cop resist" + ChatColor.GREEN + ". The cop can freeze you again if you resist!");
+					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You can try to resist this by typing " + ChatColor.GOLD + "/cop resist" + ChatColor.GREEN + ". The cop can freeze you again if you resist!");
 				} else {
 					devDebug("COP FREEZE", player, null, "FAILED: N/A PLAYER");
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Freeze failed. Player is not online, check spelling and try again.");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				devDebug("COP RESIST", player, null, "SUCCESS");
-				player.removePotionEffect(PotionEffectType.BLINDNESS);
-				player.removePotionEffect(PotionEffectType.SLOW);
-				player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
-			
+				if (resistOdds => .01 and resistOdds <= .1 and resistTries <= 3){
+					player.removePotionEffect(PotionEffectType.BLINDNESS);
+					player.removePotionEffect(PotionEffectType.SLOW);
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
+				}
+				else {
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (3 - resistTries) + " tries left";
+				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				devDebug("COP RESIST", player, null, "FAILED: INVALID");
 				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Resist failed. You were not frozen or it has expired.");
