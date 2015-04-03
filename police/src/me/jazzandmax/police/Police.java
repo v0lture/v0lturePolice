@@ -98,7 +98,8 @@ public class Police extends JavaPlugin{
 			} else if (args.length == (2) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
 				if (getPlayer(args[1]) != null){
 					Player targetPlayer = getPlayer(args[1]);
-					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries);
+					resistTries.put(player, 3);
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries.get(player));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You froze " + ChatColor.RED + args[1] + ChatColor.GREEN + " for 8 minutes.");
@@ -112,7 +113,6 @@ public class Police extends JavaPlugin{
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				rand = new Random().nextDouble();
 				resistOdds = rand;
-				resistTries.put(player, 3);
 				if (resistOdds >= .0 && resistOdds <= .1 && resistTries.get(player) <= 3 && resistTries.get(player) > 0) {
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
