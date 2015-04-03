@@ -22,7 +22,7 @@ public class Police extends JavaPlugin{
 	
 	double rand = new Random().nextDouble();
 	double resistOdds;
-	//int resistTries;
+	int resistTriesTransfer;
 	HashMap<Player, Integer> resistTries = new HashMap<Player, Integer>();
 	
 	public final Logger logger = Logger.getLogger("Minecraft");
@@ -98,11 +98,11 @@ public class Police extends JavaPlugin{
 			} else if (args.length == (2) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
 				if (getPlayer(args[1]) != null){
 					Player targetPlayer = getPlayer(args[1]);
-					resistTries.put(targetPlayer, 3);
+					resistTriesTransfer = 3;
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries.get(player));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
-					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 10000, -255));
+					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 10000, 255));
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You froze " + ChatColor.RED + args[1] + ChatColor.GREEN + " for 8 minutes.");
 					player.sendMessage(ChatColor.GOLD + "[Police] [WARNING] " + ChatColor.DARK_RED + args[1] + ChatColor.GREEN + " can try to unfreeze at anytime by typing " + ChatColor.GOLD + "/cop resist");
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have just been frozen by " + ChatColor.GOLD + player + ChatColor.GREEN + ".");
@@ -112,6 +112,10 @@ public class Police extends JavaPlugin{
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Freeze failed. Player is not online, check spelling and try again.");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
+				if ((resistTriesTransfer == 3)){
+					resistTries.put(player, resistTriesTransfer);
+				}
+				resistTriesTransfer = 0;
 				rand = new Random().nextDouble();
 				resistOdds = rand;
 				if (resistOdds >= .0 && resistOdds <= .1 && resistTries.get(player) <= 3 && resistTries.get(player) > 0) {
