@@ -14,9 +14,12 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
 Random rand = new Random();
-int resistTries = 0;
-double resistOdds = rand;
+int resistTries;
+double resistOdds;
+resistOdds = rand;
+
 public class Police extends JavaPlugin{
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static Police plugin;
@@ -112,7 +115,7 @@ public class Police extends JavaPlugin{
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				devDebug("COP RESIST", player, null, "SUCCESS");
-				if (resistOdds => .01 and resistOdds <= .1 and resistTries <= 3){
+				if (resistOdds => .00 and resistOdds <= .15 and resistTries <= 3){
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
