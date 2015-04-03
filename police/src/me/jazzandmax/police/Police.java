@@ -50,11 +50,7 @@ public class Police extends JavaPlugin{
 		}
 		
 	}
-	public <dev> dev devDebug(String cmd, Player sender, Player target, String status){
-		Bukkit.broadcast(ChatColor.DARK_RED + "[jazzandmax: DEBUG] " + ChatColor.GREEN + "Player "+ChatColor.GOLD+sender+ChatColor.GREEN+" used command "+ChatColor.GOLD+cmd+ChatColor.GREEN+" on "+ChatColor.GOLD+target+ChatColor.GREEN+" with status: "+ChatColor.GOLD+status, "jm.debug");
-		return null;
-		
-	}
+	
 	public Player getPlayer(String name) {
 	    for(Player p : Bukkit.getOnlinePlayers()) {
 	        if(p.getName().equalsIgnoreCase(name))
@@ -68,41 +64,39 @@ public class Police extends JavaPlugin{
 		Player player = (Player) sender;
 		if(commandLabel.equalsIgnoreCase("cop")) {
 			if(args.length == (0)){
-				devDebug("COP", player, null, "INCOMPLETE");
 				player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Unknown command.");
 				 
 			} else if (args.length == (2) && args[0].equalsIgnoreCase("teleport")){
 				if(this.getServer().getPlayer(args[1])!=null){
 					
 					Player targetPlayer = this.getServer().getPlayer(args[1]);
-					devDebug("COP TELEPORT", player, targetPlayer, "SUCCESS");
 					Location targetlocation = targetPlayer.getLocation();
 					player.teleport(targetlocation);
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.RED + player + ChatColor.GREEN + " just teleported to you.");
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You teleported to " + ChatColor.RED + args[1]);
 				} else {
-					devDebug("COP TELEPORT", player, null, "FAILED: N/A PLAYER");
+					
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Teleport failed. Player is not online, check spelling and try again.");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("teleport") && player.hasPermission("jm.police.tp")){
-				devDebug("COP TELEPORT", player, null, "FAILED: ARGS");
+				
 				player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to teleport to.");
 			
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("teleport") && !player.hasPermission("jm.police.tp")){
-				devDebug("COP TELEPORT", player, null, "FAILED: NO PERM");
+				
 				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 			
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
-				devDebug("COP FREEZE", player, null, "FAILED: ARGS");
+				
 				player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to freeze.");
 				
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("freeze") && !player.hasPermission("jm.police.freeze")){
-				devDebug("COP FREEZE", player, null, "FAILED: NO PERM");
+				
 				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 				
 			} else if (args.length == (2) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
 				if (getPlayer(args[1]) != null){
-					devDebug("COP FREEZE", player, null, "SUCCESS");
+					
 					Player targetPlayer = getPlayer(args[1]);
 					resistTries = 3;
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries);
@@ -113,11 +107,11 @@ public class Police extends JavaPlugin{
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have just been frozen by " + ChatColor.GOLD + player + ChatColor.GREEN + ".");
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You can try to resist this by typing " + ChatColor.GOLD + "/cop resist" + ChatColor.GREEN + ". The cop can freeze you again if you resist!");
 				} else {
-					devDebug("COP FREEZE", player, null, "FAILED: N/A PLAYER");
+					
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Freeze failed. Player is not online, check spelling and try again.");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
-				devDebug("COP RESIST", player, null, "SUCCESS");
+				
 				rand = new Random().nextDouble();
 				resistOdds = rand;
 				if (resistOdds >= .0 && resistOdds <= .1 && resistTries <= 3 && resistTries > 0) {
@@ -133,24 +127,24 @@ public class Police extends JavaPlugin{
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (resistTries) + " tries left");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
-				devDebug("COP RESIST", player, null, "FAILED: INVALID");
+				
 				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Resist failed. You were not frozen or it has expired.");
 			
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && !player.hasPermission("jm.police.resist")){
-				devDebug("COP RESIST", player, null, "FAILED: NO PERM");
+				
 				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] "+ ChatColor.DARK_RED + "Error:  " + ChatColor.RED + "Insufficient permissions.");
 				
 			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && player.hasPermission("jm.police.arrest")){
 				if (getConfig().getBoolean("setup") == false){
 					player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "The config.yml is not setup properly for this feature.");
-					devDebug("COP ARREST", player, null, "FAILED: CONFIG ERROR");
+					
 				} else if (getConfig().getBoolean("setup") == false && player.isOp()){
 					player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.RED + "To correct this set the XYZ of the jail location in the config and reload the server.");
 				} else if (args.length == (1)){
-					devDebug("COP ARREST", player, null, "FAILED: ARGS");
+					
 					player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to arrest.");
 				} else {
-					devDebug("COP ARREST", player, null, "SUCCESS");
+					
 					Player targetPlayer = getPlayer(args[1]);
 					targetPlayer.setGameMode(GameMode.ADVENTURE);
 					World map = player.getWorld();
@@ -162,12 +156,22 @@ public class Police extends JavaPlugin{
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You sent " + ChatColor.RED + args[1] + ChatColor.GREEN +  " to jail.");
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GOLD + "You were sent to jail by " + ChatColor.RED + player + ChatColor.GOLD + ".");
 				}
+				
+			} else if (args.length == (1) && args[0].equalsIgnoreCase("setjail")){
+				Location newjail = player.getLocation();
+				getConfig().set("X", newjail.getBlockX());
+				getConfig().set("Y", newjail.getBlockY());
+				getConfig().set("Z", newjail.getBlockZ());
+				player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "New jail location set.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[X] " + ChatColor.GREEN + newjail.getBlockX());
+				player.sendMessage(ChatColor.DARK_GREEN + "[Y] " + ChatColor.GREEN + newjail.getBlockY());
+				player.sendMessage(ChatColor.DARK_GREEN + "[Z] " + ChatColor.GREEN + newjail.getBlockZ());
+				
 			
 			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && !player.hasPermission("jm.police.arrest")){
-				devDebug("COP ARREST", player, null, "FAILED: NO PERM");
+				
 				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 			} else if (args.length != (0) || args.length != (1) || args.length != (2)) {
-				devDebug("COP", player, null, "FAILED: INVALID");
 				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Too many arguments.");
 			} 
 		}
