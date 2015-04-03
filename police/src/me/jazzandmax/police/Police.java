@@ -105,6 +105,7 @@ public class Police extends JavaPlugin{
 					devDebug("COP FREEZE", player, null, "SUCCESS");
 					Player targetPlayer = getPlayer(args[1]);
 					resistTries = 0;
+					player.sendMessage("Number of tries" + ChatColor.GREEN + resistTries);
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You froze " + ChatColor.RED + args[1] + ChatColor.GREEN + " for 8 minutes.");
@@ -119,7 +120,7 @@ public class Police extends JavaPlugin{
 				devDebug("COP RESIST", player, null, "SUCCESS");
 				rand = new Random().nextDouble();
 				resistOdds = rand;
-				if (resistOdds >= .0 && resistOdds <= .5 && resistTries <= 3){
+				if (resistOdds >= .0 && resistOdds <= .1 && resistTries <= 3){
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
