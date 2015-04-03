@@ -105,7 +105,7 @@ public class Police extends JavaPlugin{
 					devDebug("COP FREEZE", player, null, "SUCCESS");
 					Player targetPlayer = getPlayer(args[1]);
 					resistTries = 0;
-					player.sendMessage("Number of tries" + ChatColor.GREEN + resistTries);
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries);
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You froze " + ChatColor.RED + args[1] + ChatColor.GREEN + " for 8 minutes.");
