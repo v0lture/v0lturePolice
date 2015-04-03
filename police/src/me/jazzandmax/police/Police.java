@@ -15,12 +15,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-Random rand = new Random();
-int resistTries;
-double resistOdds;
-resistOdds = rand;
-
 public class Police extends JavaPlugin{
+	
+	Random rand = new Random();
+	int resistTries;
+	double resistOdds;
+	resistOdds = rand;
+	
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static Police plugin;
 	
