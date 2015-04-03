@@ -111,6 +111,15 @@ public class Police extends JavaPlugin{
 					
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Freeze failed. Player is not online, check spelling and try again.");
 				}
+			} else if (args.length == (2) && args[0].equalsIgnoreCase("unfreeze") && player.hasPermission("jm.police.freeze")){
+				if (getPlayer(args[1]) != null){
+					Player targetPlayer = getPlayer(args[1]);
+					targetPlayer.removePotionEffect(PotionEffectType.BLINDNESS);
+					targetPlayer.removePotionEffect(PotionEffectType.SLOW);
+					targetPlayer.removePotionEffect(PotionEffectType.JUMP);
+					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have been unfrozen by the police");
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You unfroze " + ChatColor.RED + args[1]);
+				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				if ((resistTriesTransfer == 3)){
 					resistTries.put(player, resistTriesTransfer);
