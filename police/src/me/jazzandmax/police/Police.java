@@ -23,6 +23,7 @@ public class Police extends JavaPlugin{
 	double rand = new Random().nextDouble();
 	double resistOdds;
 	int resistTriesTransfer;
+	//String playerName;
 	HashMap<Player, Integer> resistTries = new HashMap<Player, Integer>();
 	
 	public final Logger logger = Logger.getLogger("Minecraft");
@@ -98,7 +99,7 @@ public class Police extends JavaPlugin{
 			} else if (args.length == (2) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
 				if (getPlayer(args[1]) != null){
 					Player targetPlayer = getPlayer(args[1]);
-					resistTriesTransfer = 3;
+					resistTries.put((targetPlayer), 3);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist tries = " + resistTries.get(player));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 255));
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 255));
@@ -121,13 +122,9 @@ public class Police extends JavaPlugin{
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You unfroze " + ChatColor.RED + args[1]);
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && player.hasPotionEffect(PotionEffectType.BLINDNESS)){
-				if ((resistTriesTransfer == 3)){
-					resistTries.put(player, resistTriesTransfer);
-				}
-				resistTriesTransfer = 0;
 				rand = new Random().nextDouble();
 				resistOdds = rand;
-				if (resistOdds >= .0 && resistOdds <= .1 && resistTries.get(player) <= 3 && resistTries.get(player) > 0) {
+				if (resistOdds >= .0 && resistOdds <= .1 && resistTries.get((player)) <= 3 && resistTries.get((player)) > 0) {
 					player.removePotionEffect(PotionEffectType.BLINDNESS);
 					player.removePotionEffect(PotionEffectType.SLOW);
 					player.removePotionEffect(PotionEffectType.JUMP);
@@ -137,7 +134,7 @@ public class Police extends JavaPlugin{
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You are out of resist tries");
 				}
 				else {
-					resistTries.put(player, (resistTries.get(player) - 1));
+					resistTries.put((player), (resistTries.get((player)) - 1));
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (resistTries.get(player)) + " tries left");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
