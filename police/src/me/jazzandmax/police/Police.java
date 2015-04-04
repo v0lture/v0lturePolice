@@ -187,7 +187,7 @@ public class Police extends JavaPlugin{
 			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && !player.hasPermission("jm.police.arrest")){
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 			} else if (args.length != (0) || args.length != (1) || args.length != (2)) {
-				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Too many arguments.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Invalid number of arguments");
 			} else
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Command not found");
 		}
