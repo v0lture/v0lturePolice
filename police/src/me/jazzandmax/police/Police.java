@@ -42,11 +42,11 @@ public class Police extends JavaPlugin{
 		if (getConfig().getInt("X") == (0) && getConfig().getInt("Y") == (0) && getConfig().getInt("Z") == (0)){
 			this.logger.warning(pdfFile.getName() + " has an config issue. Jail location has NOT been set.");
 			getConfig().set("setup", false);
-			Bukkit.broadcast(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Module Error: " + ChatColor.RED + "Module POLICE has a config error, check console for more information.", "jm.police.*");
+			Bukkit.broadcast(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Module Error: " + ChatColor.RED + "Module POLICE has a config error, check console for more information.", "jm.police.*");
 		} else if (getConfig().getInt("Y") == (0)) {
 			getConfig().set("setup", false);
 			this.logger.warning(pdfFile.getName() + " has an config issue. Jail location is at an unsafe Y axis.");
-			Bukkit.broadcast(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Module Error: " + ChatColor.RED + "Module POLICE has a config error, check console for more information.", "jm.police.*");
+			Bukkit.broadcast(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Module Error: " + ChatColor.RED + "Module POLICE has a config error, check console for more information.", "jm.police.*");
 		} else {
 			getConfig().set("setup", true);
 		}
@@ -86,7 +86,7 @@ public class Police extends JavaPlugin{
 			
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("teleport") && !player.hasPermission("jm.police.tp")){
 				
-				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 			
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
 				
@@ -94,7 +94,7 @@ public class Police extends JavaPlugin{
 				
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("freeze") && !player.hasPermission("jm.police.freeze")){
 				
-				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 				
 			} else if (args.length == (2) && args[0].equalsIgnoreCase("freeze") && player.hasPermission("jm.police.freeze")){
 				if (getPlayer(args[1]) != null){
@@ -135,25 +135,25 @@ public class Police extends JavaPlugin{
 				}
 				else {
 					resistTries.put((player), (resistTries.get((player)) - 1));
-					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed you have " + (resistTries.get(player)) + " tries left");
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed. You have " + (resistTries.get(player)) + " tries left");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
 				
-				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Resist failed. You were not frozen or it has expired.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Resist failed. You were not frozen or it has expired.");
 			
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && !player.hasPermission("jm.police.resist")){
 				
-				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] "+ ChatColor.DARK_RED + "Error:  " + ChatColor.RED + "Insufficient permissions.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] "+ ChatColor.DARK_RED + "Error:  " + ChatColor.RED + "Insufficient permissions.");
 				
 			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && player.hasPermission("jm.police.arrest")){
 				if (getConfig().getBoolean("setup") == false){
-					player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "The config.yml is not setup properly for this feature.");
+					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "The config.yml is not setup properly for this feature.");
 					
 				} else if (getConfig().getBoolean("setup") == false && player.isOp()){
-					player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.RED + "To correct this set the XYZ of the jail location in the config and reload the server.");
+					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.RED + "To correct this set the XYZ of the jail location in the config and reload the server.");
 				} else if (args.length == (1)){
 					
-					player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to arrest.");
+					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to arrest.");
 				} else {
 					
 					Player targetPlayer = getPlayer(args[1]);
@@ -168,6 +168,9 @@ public class Police extends JavaPlugin{
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GOLD + "You were sent to jail by " + ChatColor.RED + player + ChatColor.GOLD + ".");
 				}
 				
+			} else if (args.length == (1) && args[0].equalsIgnoreCase("unfreeze")){
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to unfreeze.");
+				
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("setjail")){
 				Location newjail = player.getLocation();
 				getConfig().set("X", newjail.getBlockX());
@@ -181,9 +184,9 @@ public class Police extends JavaPlugin{
 			
 			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && !player.hasPermission("jm.police.arrest")){
 				
-				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 			} else if (args.length != (0) || args.length != (1) || args.length != (2)) {
-				player.sendMessage(ChatColor.DARK_GREEN + "[jazzandmax] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Too many arguments.");
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Too many arguments.");
 			} 
 		}
 		return false;
