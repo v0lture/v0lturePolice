@@ -148,13 +148,14 @@ public class Police extends JavaPlugin{
 			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && player.hasPermission("jm.police.arrest")){
 				if (getConfig().getBoolean("setup") == false){
 					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "The config.yml is not setup properly for this feature.");
-					
-				} else if (getConfig().getBoolean("setup") == false && player.isOp()){
+				} 
+				else if (getConfig().getBoolean("setup") == false && player.isOp()){
 					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.RED + "To correct this set the XYZ of the jail location in the config and reload the server.");
-				} else if (args.length == (1)){
-					
+				} 
+				else if (args.length == (1)){
 					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to arrest.");
-				} else {
+				} 
+				else {
 					
 					Player targetPlayer = getPlayer(args[1]);
 					targetPlayer.setGameMode(GameMode.ADVENTURE);
@@ -180,14 +181,15 @@ public class Police extends JavaPlugin{
 				player.sendMessage(ChatColor.DARK_GREEN + "[X] " + ChatColor.GREEN + newjail.getBlockX());
 				player.sendMessage(ChatColor.DARK_GREEN + "[Y] " + ChatColor.GREEN + newjail.getBlockY());
 				player.sendMessage(ChatColor.DARK_GREEN + "[Z] " + ChatColor.GREEN + newjail.getBlockZ());
+				saveConfig();
 				
 			
 			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && !player.hasPermission("jm.police.arrest")){
-				
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
 			} else if (args.length != (0) || args.length != (1) || args.length != (2)) {
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Too many arguments.");
-			} 
+			} else
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Command not found");
 		}
 		return false;
 	}
