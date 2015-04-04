@@ -145,30 +145,34 @@ public class Police extends JavaPlugin{
 				
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] "+ ChatColor.DARK_RED + "Error:  " + ChatColor.RED + "Insufficient permissions.");
 				
-			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && player.hasPermission("jm.police.arrest")){
+			} else if (args.length == (1) && args[0].equalsIgnoreCase("arrest") && player.hasPermission("jm.police.arrest")){
 				if (getConfig().getBoolean("setup") == false){
 					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "The config.yml is not setup properly for this feature.");
 				} 
 				else if (getConfig().getBoolean("setup") == false && player.isOp()){
-					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.RED + "To correct this set the XYZ of the jail location in the config and reload the server.");
-				} 
-				else if (args.length == (1)){
-					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to arrest.");
+					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.RED + "To correct this, go to the location of the jail and type " + ChatColor.GOLD + "/cop setjail");
 				} 
 				else {
-					
-					Player targetPlayer = getPlayer(args[1]);
-					targetPlayer.setGameMode(GameMode.ADVENTURE);
-					World map = player.getWorld();
-					double xaxis = getConfig().getDouble("X");
-					double yaxis = getConfig().getDouble("Y");
-					double zaxis = getConfig().getDouble("Z");
-					Location jail = new Location(map, xaxis, yaxis, zaxis);
-					targetPlayer.teleport(jail);
-					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You sent " + ChatColor.RED + args[1] + ChatColor.GREEN +  " to jail.");
-					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GOLD + "You were sent to jail by " + ChatColor.RED + player + ChatColor.GOLD + ".");
+					player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to arrest.");
 				}
 				
+			} else if (args.length == (2) && args[0].equalsIgnoreCase("arrest") && player.hasPermission("jm.police.arrest")){
+			
+				if(getConfig().getBoolean("setup") == false){
+					
+				} else {
+					
+						Player targetPlayer = getPlayer(args[1]);
+						targetPlayer.setGameMode(GameMode.ADVENTURE);
+						World map = player.getWorld();
+						double xaxis = getConfig().getDouble("X");
+						double yaxis = getConfig().getDouble("Y");
+						double zaxis = getConfig().getDouble("Z");
+						Location jail = new Location(map, xaxis, yaxis, zaxis);
+						targetPlayer.teleport(jail);
+						player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You sent " + ChatColor.RED + args[1] + ChatColor.GREEN +  " to jail.");
+						targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GOLD + "You were sent to jail by " + ChatColor.RED + player + ChatColor.GOLD + ".");
+				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("unfreeze")){
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to unfreeze.");
 				
@@ -183,13 +187,16 @@ public class Police extends JavaPlugin{
 				player.sendMessage(ChatColor.DARK_GREEN + "[Z] " + ChatColor.GREEN + newjail.getBlockZ());
 				saveConfig();
 				
-			
-			} else if (args.length == (2) || args.length == (1) && args[0].equalsIgnoreCase("arrest") && !player.hasPermission("jm.police.arrest")){
+			} else if (args.length >= (0) && args[0].equalsIgnoreCase("arrest") && !player.hasPermission("jm.police.arrest")){
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient permissions.");
+				
 			} else if (args.length != (0) || args.length != (1) || args.length != (2)) {
-				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Invalid number of arguments");
-			} else
+				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Too many arguments.");
+			} else if (args.length >= (0)){
 				player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Command not found");
+		} else {
+			player.sendMessage(ChatColor.DARK_GREEN + "[JMPS] " + ChatColor.DARK_RED + "Sorry! " + ChatColor.RED + "Unhandled action.");
+		}
 		}
 		return false;
 	}
