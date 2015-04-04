@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 import java.util.Random;
 import java.util.HashMap;
 
+import me.confuser.barapi.BarAPI;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -65,6 +67,7 @@ public class Police extends JavaPlugin{
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		Player player = (Player) sender;
 		if(commandLabel.equalsIgnoreCase("cop")) {
+			BarAPI.removeBar(player);
 			if(args.length == (0)){
 				player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Unknown command.");
 				 
@@ -74,6 +77,8 @@ public class Police extends JavaPlugin{
 					Player targetPlayer = this.getServer().getPlayer(args[1]);
 					Location targetlocation = targetPlayer.getLocation();
 					player.teleport(targetlocation);
+					BarAPI.removeBar(targetPlayer);
+					BarAPI.setMessage(targetPlayer, ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "A player teleported to you.", 15);
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.RED + player + ChatColor.GREEN + " just teleported to you.");
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You teleported to " + ChatColor.RED + args[1]);
 				} else {
@@ -106,6 +111,8 @@ public class Police extends JavaPlugin{
 					targetPlayer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 10000, 200));
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You froze " + ChatColor.RED + args[1] + ChatColor.GREEN + " for 8 minutes.");
 					player.sendMessage(ChatColor.GOLD + "[Police] [WARNING] " + ChatColor.DARK_RED + args[1] + ChatColor.GREEN + " can try to unfreeze at anytime by typing " + ChatColor.GOLD + "/cop resist");
+					BarAPI.removeBar(targetPlayer);
+					BarAPI.setMessage(targetPlayer, ChatColor.RED +""+ ChatColor.BOLD + "You have been frozen.", 60);
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have just been frozen by " + ChatColor.GOLD + player + ChatColor.GREEN + ".");
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You can try to resist this by typing " + ChatColor.GOLD + "/cop resist" + ChatColor.GREEN + ". The cop can freeze you again if you resist!");
 				} else {
@@ -118,6 +125,8 @@ public class Police extends JavaPlugin{
 					targetPlayer.removePotionEffect(PotionEffectType.BLINDNESS);
 					targetPlayer.removePotionEffect(PotionEffectType.SLOW);
 					targetPlayer.removePotionEffect(PotionEffectType.JUMP);
+					BarAPI.removeBar(targetPlayer);
+					BarAPI.setMessage(targetPlayer, ChatColor.GREEN + "You have been unfrozen by the police.", 15);
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have been unfrozen by the police");
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You unfroze " + ChatColor.RED + args[1]);
 				}
@@ -129,12 +138,18 @@ public class Police extends JavaPlugin{
 					player.removePotionEffect(PotionEffectType.SLOW);
 					player.removePotionEffect(PotionEffectType.JUMP);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You have resisted the freeze, the police may freeze you again.");
+					BarAPI.removeBar(player);
+					BarAPI.setMessage(player, ChatColor.GREEN + "" + ChatColor.BOLD + "You have resisted the freeze.", 10);
 				}
 				else if (resistTries.get(player) <= 0) {
-					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You are out of resist tries");
+					BarAPI.removeBar(player);
+					BarAPI.setMessage(player, ChatColor.RED + "SORRY! You are out of resist attempts.", 10);
+					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You are out of resist tries.");
 				}
 				else {
 					resistTries.put((player), (resistTries.get((player)) - 1));
+					BarAPI.removeBar(player);
+					BarAPI.setMessage(player, ChatColor.RED + "Resist failed. You have " + resistTries.get(player) + " tries left.", 10);
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "Resist failed. You have " + (resistTries.get(player)) + " tries left");
 				}
 			} else if (args.length == (1) && args[0].equalsIgnoreCase("resist") && player.hasPermission("jm.police.resist") && !player.hasPotionEffect(PotionEffectType.BLINDNESS)){
@@ -170,6 +185,8 @@ public class Police extends JavaPlugin{
 						double zaxis = getConfig().getDouble("Z");
 						Location jail = new Location(map, xaxis, yaxis, zaxis);
 						targetPlayer.teleport(jail);
+						BarAPI.removeBar(targetPlayer);
+						BarAPI.setMessage(targetPlayer, ChatColor.RED + "You have been arrested.", 60);
 						player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You sent " + ChatColor.RED + args[1] + ChatColor.GREEN +  " to jail.");
 						targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GOLD + "You were sent to jail by " + ChatColor.RED + player + ChatColor.GOLD + ".");
 				}
