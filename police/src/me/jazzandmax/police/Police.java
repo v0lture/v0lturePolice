@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 import java.util.Random;
 import java.util.HashMap;
 
-import me.confuser.barapi.*;
+//import me.confuser.barapi.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -74,8 +74,6 @@ public class Police extends JavaPlugin{
 					Player targetPlayer = this.getServer().getPlayer(args[1]);
 					Location targetlocation = targetPlayer.getLocation();
 					player.teleport(targetlocation);
-					BarAPI.removeBar(targetPlayer);
-					BarAPI.setMessage(targetPlayer, ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "A player teleported to you.", 15);
 					targetPlayer.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.RED + player + ChatColor.GREEN + " just teleported to you.");
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.GREEN + "You teleported to " + ChatColor.RED + args[1]);
 				} 
@@ -83,6 +81,15 @@ public class Police extends JavaPlugin{
 					player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Teleport failed. Player is not online, check spelling and try again.");
 				}
 			} 
+			else if (args.length == (1) && args[0].equalsIgnoreCase("help")) {
+				player.sendMessage(ChatColor.DARK_GREEN + "[Police] Help menu\n"
+						+ ChatColor.GREEN + "teleport: " + ChatColor.RED + "Teleports to another player\n"
+						+ ChatColor.GREEN + "freeze: " + ChatColor.RED + "Freezes another players\n"
+						+ ChatColor.GREEN + "unfreeze: " + ChatColor.RED + "Unfreezes frozen players\n"
+						+ ChatColor.GREEN + "resist: " + ChatColor.RED + "Allows frozen players to escape freeze\n"
+						+ ChatColor.GREEN + "setjail: " + ChatColor.RED + "Sets jail\n"
+						+ ChatColor.GREEN + "arrest: " + ChatColor.RED + "Puts target player in jail\n");
+			}
 			else if (args.length == (1) && args[0].equalsIgnoreCase("teleport") && player.hasPermission("jm.police.tp")){
 				player.sendMessage(ChatColor.DARK_GREEN + "[Police] " + ChatColor.DARK_RED + "Error: " + ChatColor.RED + "Insufficient arguments. Please select a player to teleport to.");
 			} 
