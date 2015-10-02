@@ -1,4 +1,4 @@
-# v0lture Programming Police plugin
+# v0lture Police plugin
 
 For use on Bukkit Minecraft servers
 
