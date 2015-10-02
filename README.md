@@ -1,6 +1,7 @@
-# JMPS
-jazzandmax's modular plugin system: soon to be renamed.
+# Bukkit v0p Police Plugin
+v0lture Programming Police plugin
 
-This repository is designed to hold Bukkit plugins created by jazzandmax
+For use on Bukkit Minecraft servers
+
 All files in this repository are under a BY-NC creative commons license
 More info on the license found here: http://creativecommons.org/licenses/by-nc/4.0/
